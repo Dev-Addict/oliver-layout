@@ -1,5 +1,9 @@
+import {ItemsProvider} from './contexts/items/items.provider.tsx';
+
 export function App() {
 	return (
-		<div></div>
+		<ItemsProvider>
+			<div></div>
+		</ItemsProvider>
 	);
 }
