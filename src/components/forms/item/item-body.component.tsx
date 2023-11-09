@@ -2,6 +2,7 @@ import {Field} from 'formik';
 import styled from 'styled-components';
 
 import {TextInput} from '../../shared/input/text.input.tsx';
+import {ColorInput} from '../../shared/input/color.input.tsx';
 import {itemFields} from './item.fields.ts';
 
 const Container = styled.div`
@@ -95,7 +96,7 @@ export const ItemBody = () => {
 					/>
 				</InputGroup>
 				<Field
-					component={TextInput}
+					component={ColorInput}
 					name={itemFields.color}
 					label='Color'
 				/>
