@@ -1,9 +1,12 @@
 import {CSSProperties} from 'react';
+
+import {ItemType} from './enums/item-type.enum.ts';
 import {ItemPadding} from './item-padding.type.ts';
 import {ItemMargin} from './item-margin.type.ts';
 
 export interface Item {
 	id: string;
+	type: ItemType;
 	name: string;
 	width: number;
 	height: number;

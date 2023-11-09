@@ -2,12 +2,14 @@ import {FC, useCallback, useMemo, useState} from 'react';
 import styled, {useTheme} from 'styled-components';
 
 import {DiamondsFourIcon} from '../../assets/icons/diamonds-four.icon.tsx';
-import {PlusIcon} from '../../assets/icons/plus.icon.tsx';
 import {CaretDownIcon} from '../../assets/icons/caret-down.icon.tsx';
 import {TrashIcon} from '../../assets/icons/trash.icon.tsx';
 import {useItems} from '../../../hooks/contexts/items.hook.ts';
 import {Item as ItemType} from '../../../types/item.type.ts';
 import {Theme} from '../../../types/theme/theme.type.ts';
+import {AddItem} from '../../shared/add-item.component.tsx';
+import {ItemType as ItemTypeEnum} from '../../../types/enums/item-type.enum.ts';
+import {RadioButtonIcon} from '../../assets/icons/radio-button.icon.tsx';
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +27,7 @@ const Container = styled.div<ContainerProps>`
   align-items: center;
   padding: 8px 16px;
   font-size: 14px;
-	background-color: ${({selected, theme}) => selected ? theme.primary.v2 : 'transparent'}1A;
+  background-color: ${({selected, theme}) => selected ? theme.primary.v2 : 'transparent'}1A;
 `;
 
 interface IconContainerProps {
@@ -36,7 +38,6 @@ interface IconContainerProps {
 const IconContainer = styled.div<IconContainerProps>`
   width: 16px;
   height: 16px;
-  margin-right: 8px;
   opacity: ${({disabled}) => disabled ? 0.5 : 1};
   cursor: ${({disabled}) => disabled ? 'not-allowed' : 'pointer'};
 
@@ -51,16 +52,17 @@ const Name = styled.span`
   -webkit-line-clamp: 1;
   line-clamp: 1;
   -webkit-box-orient: vertical;
+  margin: 0 8px;
 `;
 
 const ActionContainer = styled.div`
-  width: 64px;
   height: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin-left: auto;
+  gap: 8px;
 `;
 
 interface ChildrenContainerProps {
@@ -85,7 +87,7 @@ interface Props {
 export const Item: FC<Props> = ({item}) => {
 	const theme = useTheme() as Theme;
 
-	const {items, addItem, deleteItem, selectedItem, setSelectedItem} = useItems();
+	const {items, deleteItem, selectedItem, setSelectedItem} = useItems();
 
 	const [isOpen, setOpen] = useState(false);
 
@@ -93,7 +95,6 @@ export const Item: FC<Props> = ({item}) => {
 
 	const onContainerClick = useCallback(() => setSelectedItem(item), [item, setSelectedItem]);
 	const onDeleteClick = useCallback(() => deleteItem(item), [deleteItem, item]);
-	const onAddClick = useCallback((parent: ItemType) => () => addItem(parent), [addItem]);
 	const onChildrenClick = useCallback(() => setOpen(!isOpen), [isOpen]);
 
 	const renderItems = (list = items) => list.map((item) => <Item item={item} key={item.id} />,
@@ -103,19 +104,25 @@ export const Item: FC<Props> = ({item}) => {
 		<Wrapper key={item.id}>
 			<Container onClick={onContainerClick} selected={selected}>
 				<IconContainer>
-					<DiamondsFourIcon size={16} color={theme.primary.v1} />
+					{item.type === ItemTypeEnum.CONTAINER ? (
+						<DiamondsFourIcon size={16} color={theme.primary.v1} />
+					) : (
+						<RadioButtonIcon size={16} color={theme.primary.v1} />
+					)}
 				</IconContainer>
 				<Name>{item.name}</Name>
 				<ActionContainer>
 					<IconContainer onClick={onDeleteClick}>
 						<TrashIcon size={16} color={theme.secondary.v1} />
 					</IconContainer>
-					<IconContainer onClick={onAddClick(item)}>
-						<PlusIcon size={16} />
-					</IconContainer>
-					<IconContainer disabled={!item.children.length} onClick={onChildrenClick} rotate={isOpen}>
-						<CaretDownIcon size={16} />
-					</IconContainer>
+					{item.type === ItemTypeEnum.CONTAINER && (
+						<>
+							<AddItem size={16} parent={item} />
+							<IconContainer disabled={!item.children.length} onClick={onChildrenClick} rotate={isOpen}>
+								<CaretDownIcon size={16} />
+							</IconContainer>
+						</>
+					)}
 				</ActionContainer>
 			</Container>
 			{item.children.length > 0 && (

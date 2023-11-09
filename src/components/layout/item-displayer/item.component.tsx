@@ -1,7 +1,8 @@
 import {FC, useCallback, useMemo} from 'react';
-import styled, {css} from 'styled-components';
+import styled, {css, WebTarget} from 'styled-components';
 
 import {useItems} from '../../../hooks/contexts/items.hook.ts';
+import {ItemType as ItemTypeEnum} from '../../../types/enums/item-type.enum.ts';
 import {Item as ItemType} from '../../../types/item.type.ts';
 
 interface ContainerProps {
@@ -9,7 +10,7 @@ interface ContainerProps {
 	selected: boolean;
 }
 
-const Container = styled.div<ContainerProps>`
+const Container = (element: WebTarget) => styled(element)<ContainerProps>`
   width: ${({item}) => item.width}px;
   height: ${({item}) => item.height}px;
   background-color: ${({item}) => item.color};
@@ -23,14 +24,22 @@ const Container = styled.div<ContainerProps>`
   margin-right: ${({item}) => item.margin.right};
   margin-bottom: ${({item}) => item.margin.bottom};
   margin-left: ${({item}) => item.margin.left};
+	border: none;
+	outline: none;
 
   ${({selected}) => selected && css`
     border: 1px solid ${({theme}) => theme.primary.m};
   `}
 `;
 
-const Text = styled.span`
-  position: absolute;
+interface TextProps {
+	isButton: boolean;
+}
+
+const Text = styled.span<TextProps>`
+	${({isButton}) => !isButton && css`
+    position: absolute;
+	`}
 `;
 
 interface Props {
@@ -41,19 +50,21 @@ export const Item: FC<Props> = ({item}) => {
 	const {selectedItem, setSelectedItem} = useItems();
 
 	const selected = useMemo(() => selectedItem === item, [selectedItem, item]);
+	const isButton = useMemo(() => item.type === ItemTypeEnum.BUTTON, [item]);
+	const Element = Container(isButton ? 'button' : 'div');
 
 	const onClick = useCallback(() => setSelectedItem(item), [item, setSelectedItem]);
 
 	const renderChildren = () => item.children.map((child) => <Item item={child} />);
 
 	return (
-		<Container item={item}
-							 onClick={onClick}
-							 selected={selected}>
-			<Text>
-				{item.text}
-			</Text>
+		<Element item={item}
+						 onClick={onClick}
+						 selected={selected}>
+			{item.text &&
+				<Text isButton={isButton}>{item.text}</Text>
+			}
 			{renderChildren()}
-		</Container>
+		</Element>
 	);
 };

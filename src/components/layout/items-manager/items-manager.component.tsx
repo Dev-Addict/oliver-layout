@@ -1,8 +1,7 @@
-import {useCallback} from 'react';
 import styled from 'styled-components';
 
 import {Item} from './item.component.tsx';
-import {PlusIcon} from '../../assets/icons/plus.icon.tsx';
+import {AddItem} from '../../shared/add-item.component.tsx';
 import {useItems} from '../../../hooks/contexts/items.hook.ts';
 
 const Container = styled.div`
@@ -11,7 +10,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-	user-select: none;
+  user-select: none;
 `;
 
 const HeaderContainer = styled.div`
@@ -26,21 +25,14 @@ const HeaderContainer = styled.div`
   font-weight: bold;
 `;
 
-const IconContainer = styled.div`
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-
 const ItemsContainer = styled.div`
+	flex: 1;
   overflow-x: hidden;
   overflow-y: auto;
 `;
 
 export const ItemsManager = () => {
-	const {items, addItem} = useItems();
-
-	const onAddItemClick = useCallback(() => addItem(), [addItem]);
+	const {items} = useItems();
 
 	const renderItems = (list = items) => list.map((item) => <Item item={item} key={item.id} />,
 	);
@@ -49,9 +41,7 @@ export const ItemsManager = () => {
 		<Container>
 			<HeaderContainer>
 				<span>Oliver Layout</span>
-				<IconContainer onClick={onAddItemClick}>
-					<PlusIcon size={24} />
-				</IconContainer>
+				<AddItem />
 			</HeaderContainer>
 			<ItemsContainer>{renderItems()}</ItemsContainer>
 		</Container>

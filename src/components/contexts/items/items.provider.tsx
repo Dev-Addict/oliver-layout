@@ -3,6 +3,7 @@ import {v4 as uuid} from 'uuid';
 import {useTheme} from 'styled-components';
 
 import {ItemsContext} from './items.context.ts';
+import {ItemType} from '../../../types/enums/item-type.enum.ts';
 import {Item} from '../../../types/item.type.ts';
 import {Theme} from '../../../types/theme/theme.type.ts';
 import {ItemFields} from '../../forms/item/item.fields.ts';
@@ -14,12 +15,13 @@ export const ItemsProvider: FC<PropsWithChildren> = ({children}) => {
 	const [totalItemsCreated, setTotalItemsCreated] = useState(0);
 	const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
-	const addItem = useCallback((parent?: Item) => {
+	const addItem = useCallback((parent?: Item, itemType = ItemType.CONTAINER) => {
 		const item: Item = {
 			id: uuid(),
+			type: itemType,
 			name: 'Item #' + (totalItemsCreated + 1),
-			width: 200,
-			height: 200,
+			width: itemType === ItemType.CONTAINER ? 200 : 120,
+			height: itemType === ItemType.CONTAINER ? 200 : 40,
 			display: 'block',
 			position: 'relative',
 			color: theme.neutral.v1,
@@ -35,7 +37,7 @@ export const ItemsProvider: FC<PropsWithChildren> = ({children}) => {
 				bottom: 0,
 				left: 0,
 			},
-			text: 'Item #' + (totalItemsCreated + 1),
+			text: itemType === ItemType.BUTTON ? 'Item #' + (totalItemsCreated + 1) : '',
 			children: [],
 		};
 
