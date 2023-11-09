@@ -3,7 +3,7 @@ import {ItemPadding} from './item-padding.type.ts';
 import {ItemMargin} from './item-margin.type.ts';
 
 export interface Item {
-	id: number;
+	id: string;
 	name: string;
 	width: number;
 	height: number;
