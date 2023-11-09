@@ -1,4 +1,4 @@
-import {FC, useCallback, useState} from 'react';
+import {FC, useCallback, useMemo, useState} from 'react';
 import styled, {useTheme} from 'styled-components';
 
 import {DiamondsFourIcon} from '../../assets/icons/diamonds-four.icon.tsx';
@@ -15,12 +15,17 @@ const Wrapper = styled.div`
   align-items: stretch;
 `;
 
-const Container = styled.div`
+interface ContainerProps {
+	selected?: boolean;
+}
+
+const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 8px 16px;
   font-size: 14px;
+	background-color: ${({selected, theme}) => selected ? theme.primary.v2 : 'transparent'}1A;
 `;
 
 interface IconContainerProps {
@@ -52,6 +57,7 @@ const ActionContainer = styled.div`
 
 interface ChildrenContainerProps {
 	isOpen: boolean;
+	selected?: boolean;
 }
 
 const ChildrenContainer = styled.div<ChildrenContainerProps>`
@@ -61,6 +67,7 @@ const ChildrenContainer = styled.div<ChildrenContainerProps>`
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  background-color: ${({selected, theme}) => selected ? theme.secondary.v2 : 'transparent'}1A;
 `;
 
 interface Props {
@@ -70,10 +77,13 @@ interface Props {
 export const Item: FC<Props> = ({item}) => {
 	const theme = useTheme() as Theme;
 
-	const {items, addItem, deleteItem} = useItems();
+	const {items, addItem, deleteItem, selectedItem, setSelectedItem} = useItems();
 
 	const [isOpen, setOpen] = useState(false);
 
+	const selected = useMemo(() => item.id === selectedItem?.id, [item, selectedItem]);
+
+	const onContainerClick = useCallback(() => setSelectedItem(item), [item, setSelectedItem]);
 	const onDeleteClick = useCallback(() => deleteItem(item), [deleteItem, item]);
 	const onAddClick = useCallback((parent: ItemType) => () => addItem(parent), [addItem]);
 	const onChildrenClick = useCallback(() => setOpen(!isOpen), [isOpen]);
@@ -83,7 +93,7 @@ export const Item: FC<Props> = ({item}) => {
 
 	return (
 		<Wrapper key={item.id}>
-			<Container>
+			<Container onClick={onContainerClick} selected={selected}>
 				<IconContainer>
 					<DiamondsFourIcon size={16} color={theme.primary.v1} />
 				</IconContainer>
@@ -101,7 +111,7 @@ export const Item: FC<Props> = ({item}) => {
 				</ActionContainer>
 			</Container>
 			{item.children.length > 0 && (
-				<ChildrenContainer isOpen={isOpen}>
+				<ChildrenContainer isOpen={isOpen} selected={selected}>
 					{renderItems(item.children)}
 				</ChildrenContainer>
 			)}

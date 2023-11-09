@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import {ItemsManager} from './items-manager/items-manager.component.tsx';
+import {ItemController} from './item-controller/item-controller.component.tsx';
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +30,9 @@ export const Dashboard = () => {
 				<ItemsManager />
 			</SideContainer>
 			<LayoutContainer></LayoutContainer>
-			<SideContainer></SideContainer>
+			<SideContainer>
+				<ItemController />
+			</SideContainer>
 		</Container>
 	);
 };
