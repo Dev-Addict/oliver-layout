@@ -45,6 +45,14 @@ const IconContainer = styled.div<IconContainerProps>`
   }
 `;
 
+const Name = styled.span`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+`;
+
 const ActionContainer = styled.div`
   width: 64px;
   height: 16px;
@@ -97,7 +105,7 @@ export const Item: FC<Props> = ({item}) => {
 				<IconContainer>
 					<DiamondsFourIcon size={16} color={theme.primary.v1} />
 				</IconContainer>
-				<span>{item.name}</span>
+				<Name>{item.name}</Name>
 				<ActionContainer>
 					<IconContainer onClick={onDeleteClick}>
 						<TrashIcon size={16} color={theme.secondary.v1} />
