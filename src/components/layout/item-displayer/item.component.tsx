@@ -23,10 +23,14 @@ const Container = styled.div<ContainerProps>`
   margin-right: ${({item}) => item.margin.right};
   margin-bottom: ${({item}) => item.margin.bottom};
   margin-left: ${({item}) => item.margin.left};
-	
-	${({selected}) => selected && css`
+
+  ${({selected}) => selected && css`
     border: 1px solid ${({theme}) => theme.primary.m};
   `}
+`;
+
+const Text = styled.span`
+  position: absolute;
 `;
 
 interface Props {
@@ -46,7 +50,9 @@ export const Item: FC<Props> = ({item}) => {
 		<Container item={item}
 							 onClick={onClick}
 							 selected={selected}>
-			{item.text}
+			<Text>
+				{item.text}
+			</Text>
 			{renderChildren()}
 		</Container>
 	);
