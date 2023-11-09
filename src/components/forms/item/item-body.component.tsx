@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 import {TextInput} from '../../shared/input/text.input.tsx';
 import {ColorInput} from '../../shared/input/color.input.tsx';
+import {DropdownInput} from '../../shared/input/dropdown.input.tsx';
+import {DISPLAY_OPTIONS} from '../../../constants/options/display.options.ts';
+import {POSITION_OPTIONS} from '../../../constants/options/position.options.ts';
 import {itemFields} from './item.fields.ts';
 
 const Container = styled.div`
@@ -101,12 +104,16 @@ export const ItemBody = () => {
 					label='Color'
 				/>
 				<Field
-					component={TextInput}
+					component={DropdownInput}
+					options={DISPLAY_OPTIONS}
+					placeholder='Select display...'
 					name={itemFields.display}
 					label='Display'
 				/>
 				<Field
-					component={TextInput}
+					component={DropdownInput}
+					options={POSITION_OPTIONS}
+					placeholder='Select position...'
 					name={itemFields.position}
 					label='Position'
 				/>
