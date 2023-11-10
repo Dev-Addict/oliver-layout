@@ -11,19 +11,19 @@ interface ContainerProps {
 }
 
 const Container = (element: WebTarget) => styled(element)<ContainerProps>`
-  width: ${({item}) => item.width}px;
-  height: ${({item}) => item.height}px;
+  width: ${({item}) => item.width.value + item.width.unit};
+  height: ${({item}) => item.height.value + item.height.unit};
   background-color: ${({item}) => item.color};
   display: ${({item}) => item.display};
   position: ${({item}) => item.position};
-  padding-top: ${({item}) => item.padding.top};
-  padding-right: ${({item}) => item.padding.right};
-  padding-bottom: ${({item}) => item.padding.bottom};
-  padding-left: ${({item}) => item.padding.left};
-  margin-top: ${({item}) => item.margin.top};
-  margin-right: ${({item}) => item.margin.right};
-  margin-bottom: ${({item}) => item.margin.bottom};
-  margin-left: ${({item}) => item.margin.left};
+  padding-top: ${({item}) => item.padding.top.value + item.padding.top.unit};
+  padding-right: ${({item}) => item.padding.right.value + item.padding.right.unit};
+  padding-bottom: ${({item}) => item.padding.bottom.value + item.padding.bottom.unit};
+  padding-left: ${({item}) => item.padding.left.value + item.padding.left.unit};
+  margin-top: ${({item}) => item.margin.top.value + item.margin.top.unit};
+  margin-right: ${({item}) => item.margin.right.value + item.margin.right.unit};
+  margin-bottom: ${({item}) => item.margin.bottom.value + item.margin.bottom.unit};
+  margin-left: ${({item}) => item.margin.left.value + item.margin.left.unit};
 	border: none;
 	outline: none;
 

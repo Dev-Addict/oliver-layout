@@ -7,6 +7,7 @@ import {ItemType} from '../../../types/enums/item-type.enum.ts';
 import {Item} from '../../../types/item.type.ts';
 import {Theme} from '../../../types/theme/theme.type.ts';
 import {ItemFields} from '../../forms/item/item.fields.ts';
+import {ItemValueUnit} from '../../../types/enums/item-value-unit.enum.ts';
 
 export const ItemsProvider: FC<PropsWithChildren> = ({children}) => {
 	const theme = useTheme() as Theme;
@@ -20,22 +21,22 @@ export const ItemsProvider: FC<PropsWithChildren> = ({children}) => {
 			id: uuid(),
 			type: itemType,
 			name: 'Item #' + (totalItemsCreated + 1),
-			width: itemType === ItemType.CONTAINER ? 200 : 120,
-			height: itemType === ItemType.CONTAINER ? 200 : 40,
+			width: {value: itemType === ItemType.CONTAINER ? 200 : 120, unit: ItemValueUnit.PIXEL},
+			height: {value: itemType === ItemType.CONTAINER ? 200 : 40, unit: ItemValueUnit.PIXEL},
 			display: 'block',
 			position: 'relative',
 			color: theme.neutral.v1,
 			padding: {
-				top: 0,
-				right: 0,
-				bottom: 0,
-				left: 0,
+				top: {value: 0, unit: ItemValueUnit.PIXEL},
+				right: {value: 0, unit: ItemValueUnit.PIXEL},
+				bottom: {value: 0, unit: ItemValueUnit.PIXEL},
+				left: {value: 0, unit: ItemValueUnit.PIXEL},
 			},
 			margin: {
-				top: 0,
-				right: 0,
-				bottom: 0,
-				left: 0,
+				top: {value: 0, unit: ItemValueUnit.PIXEL},
+				right: {value: 0, unit: ItemValueUnit.PIXEL},
+				bottom: {value: 0, unit: ItemValueUnit.PIXEL},
+				left: {value: 0, unit: ItemValueUnit.PIXEL},
 			},
 			text: itemType === ItemType.BUTTON ? 'Item #' + (totalItemsCreated + 1) : '',
 			children: [],
@@ -68,27 +69,27 @@ export const ItemsProvider: FC<PropsWithChildren> = ({children}) => {
 	}, [deleteItemFromChildren, items]);
 	const updateItem = useCallback((item: Item, values: ItemFields) => {
 		item.name = values.name;
-		item.width = +values.width;
-		item.height = +values.height;
+		item.width = {value: +values.width, unit: values.widthUnit};
+		item.height = {value: +values.height, unit: values.heightUnit};
 		item.display = values.display;
 		item.position = values.position;
 		item.color = values.color;
 		item.padding = {
-			top: +values.paddingTop,
-			right: +values.paddingRight,
-			bottom: +values.paddingBottom,
-			left: +values.paddingLeft,
+			top: {value: +values.paddingTop, unit: values.paddingTopUnit},
+			right: {value: +values.paddingRight, unit: values.paddingRightUnit},
+			bottom: {value: +values.paddingBottom, unit: values.paddingBottomUnit},
+			left: {value: +values.paddingLeft, unit: values.paddingLeftUnit}
 		};
 		item.margin = {
-			top: +values.marginTop,
-			right: +values.marginRight,
-			bottom: +values.marginBottom,
-			left: +values.marginLeft,
+			top: {value: +values.marginTop, unit: values.marginTopUnit},
+			right: {value: +values.marginRight, unit: values.marginRightUnit},
+			bottom: {value: +values.marginBottom, unit: values.marginBottomUnit},
+			left: {value: +values.marginLeft, unit: values.marginLeftUnit}
 		};
 		item.text = values.text;
 
 		setItems(items => [...items]);
-	}, [])
+	}, []);
 
 	const doesItemExist = useCallback((item: Item, children: Item[]) => {
 		for (let i = 0; i < children.length; i++) {

@@ -7,6 +7,7 @@ import {DropdownInput} from '../../shared/input/dropdown.input.tsx';
 import {DISPLAY_OPTIONS} from '../../../constants/options/display.options.ts';
 import {POSITION_OPTIONS} from '../../../constants/options/position.options.ts';
 import {itemFields} from './item.fields.ts';
+import {ValueInput} from '../../shared/input/value.input.tsx';
 
 const Container = styled.div`
 	display: flex;
@@ -70,6 +71,11 @@ const Button = styled.button`
   }
 `;
 
+const Note = styled.div`
+	font-size: 12px;
+	color: ${({theme}) => theme.foreground.v1}80;
+`;
+
 export const ItemBody = () => {
 	return (
 		<Container>
@@ -86,16 +92,16 @@ export const ItemBody = () => {
 				/>
 				<InputGroup>
 					<Field
-						component={TextInput}
+						component={ValueInput}
 						name={itemFields.width}
 						label='Width'
-						postfix='px'
+						unitFieldName={itemFields.widthUnit}
 					/>
 					<Field
-						component={TextInput}
+						component={ValueInput}
 						name={itemFields.height}
 						label='Height'
-						postfix='px'
+						unitFieldName={itemFields.heightUnit}
 					/>
 				</InputGroup>
 				<Field
@@ -121,30 +127,30 @@ export const ItemBody = () => {
 					<InputGroupLabel>Padding</InputGroupLabel>
 					<InputGroup>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.paddingTop}
 							label='Top'
-							postfix='px'
+							unitFieldName={itemFields.paddingTopUnit}
 						/>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.paddingRight}
 							label='Right'
-							postfix='px'
+							unitFieldName={itemFields.paddingRightUnit}
 						/>
 					</InputGroup>
 					<InputGroup>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.paddingBottom}
 							label='Bottom'
-							postfix='px'
+							unitFieldName={itemFields.paddingBottomUnit}
 						/>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.paddingLeft}
 							label='Left'
-							postfix='px'
+							unitFieldName={itemFields.paddingLeftUnit}
 						/>
 					</InputGroup>
 				</InputGroupWrapper>
@@ -152,33 +158,34 @@ export const ItemBody = () => {
 					<InputGroupLabel>Margin</InputGroupLabel>
 					<InputGroup>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.marginTop}
 							label='Top'
-							postfix='px'
+							unitFieldName={itemFields.marginTopUnit}
 						/>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.marginRight}
 							label='Right'
-							postfix='px'
+							unitFieldName={itemFields.marginRightUnit}
 						/>
 					</InputGroup>
 					<InputGroup>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.marginBottom}
 							label='Bottom'
-							postfix='px'
+							unitFieldName={itemFields.marginBottomUnit}
 						/>
 						<Field
-							component={TextInput}
+							component={ValueInput}
 							name={itemFields.marginLeft}
 							label='Left'
-							postfix='px'
+							unitFieldName={itemFields.marginLeftUnit}
 						/>
 					</InputGroup>
 				</InputGroupWrapper>
+				<Note>Click on units to switch between them</Note>
 			</Inputs>
 			<SubmitContainer>
 				<Button type='submit'>Save</Button>

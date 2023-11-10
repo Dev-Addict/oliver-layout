@@ -1,6 +1,8 @@
+import {ItemValue} from './item-value.type.ts';
+
 export interface ItemMargin {
-	top: number;
-	right: number;
-	bottom: number;
-	left: number;
+	top: ItemValue;
+	right: ItemValue;
+	bottom: ItemValue;
+	left: ItemValue;
 }

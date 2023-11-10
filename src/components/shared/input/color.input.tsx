@@ -59,6 +59,7 @@ const ColorPickerContainer = styled.div<ColorPickerContainerProps>`
 	max-height: ${({isOpen}) => isOpen ? 300 : 0}px;
 	opacity: ${({isOpen}) => isOpen ? 1 : 0};
 	transition: max-height 300ms ease-in-out, opacity 50ms ease-in-out;
+	z-index: 1;
 `;
 
 const Error = styled.div`
